@@ -12,10 +12,15 @@
   "default_locale": "en",
   "background": {
     "scripts": [
+      "js/jquery/jquery.min.js",
+      "js/dropbox/dropbox.min.js",
       "src/bg/background.js"
     ],
     "persistent": false
   },
+  "web_accessible_resources": [
+    "js/dropbox/chrome_oauth_receiver.html"
+  ],
   "options_page": "src/options_custom/index.html",
   "page_action": {
     "default_icon": "icons/icon19.png",
@@ -23,7 +28,9 @@
     "default_popup": "src/page_action/page_action.html"
   },
   "permissions": [
-    "https://*.youtube.com/*"
+    "storage",
+    "https://*.youtube.com/*",
+    "https://*.googlevideo.com/*"
   ],
   "content_scripts": [
     {
