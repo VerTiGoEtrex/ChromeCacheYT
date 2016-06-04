@@ -27,28 +27,31 @@ function downloadDropbox(id) {
     console.log("Got URL data: " + data.dlUrl);
     console.log("Downloading video to local store")
 
+    downloadURLBlob(data.dlUrl, function(blob) {
+      console.log("Got blob! Uploading to Dropbox storage");
+      dbClient.writeFile(id + ".mp4", blob, function(error, stat) {
+        if (error) {
+          console.log(error);
+          return
+        }
+        console.log("Uploaded!");
+      });
+    })
+  });
+}
+
+function downloadURLBlob(url, cb) {
     var xhr = new XMLHttpRequest();
     xhr.open('get', data.dlUrl, true);
     xhr.responseType = "arraybuffer";
     xhr.onload = function(e) {
       if (this.status == 200) {
-        var blobArray = this.response;
-        console.log("Got blob! Uploading to Dropbox storage");
-        dbClient.writeFile(id + ".mp4", blobArray, function(error, stat) {
-          if (error) {
-            console.log(error);
-            return
-          }
-          console.log("Uploaded!");
-        });
+        cb(this.response)
       } else {
         console.log(e);
       }
     }
-
     xhr.send();
-
-  });
 }
 
 
